@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101010">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LUXURY INJECT">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Luxury Sensi</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--bg:#0e0e0f;--panel:#141415;--line:#29292b;--text:#f4f4f5;--muted:#77777c;--soft:#aaaab0}
+html,body{margin:0;width:100%;height:100%;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",Arial,sans-serif;background:var(--bg);color:var(--text)}
+body{display:grid;place-items:center;overflow:hidden}
+button,input{font:inherit}
+button{border:0}
+.screen{width:100%;height:100%;display:grid;place-items:center;padding:18px}
+.login{width:min(92vw,430px);padding:28px;border:1px solid #303034;border-radius:28px;background:linear-gradient(145deg,#171718,#111112);box-shadow:0 28px 80px #000;animation:appear .45s cubic-bezier(.22,1,.36,1)}
+.login{position:relative;overflow:hidden;text-align:center;padding:34px 28px 25px}
+.loginGlow{position:absolute;width:180px;height:180px;left:50%;top:-120px;transform:translateX(-50%);border-radius:50%;background:#fff;filter:blur(80px);opacity:.08;pointer-events:none}
+.miniLabel{font-size:9px;letter-spacing:4px;color:#777;margin:2px 0 8px}
+.login h1{position:relative;font-size:25px;letter-spacing:3px}
+.login p{margin:8px 0 25px}
+.inputWrap{position:relative}
+.lock{position:absolute;z-index:1;left:16px;top:16px;color:#777;font-size:17px;line-height:20px}
+.inputWrap .field{padding-left:43px}
+.enter{display:flex;align-items:center;justify-content:center;gap:10px}
+.enter b{font-size:24px;font-weight:400;line-height:0;margin-top:-2px}
+.secure{margin-top:15px;color:#666;font-size:11px;letter-spacing:.4px}
+.secure i{display:inline-block;width:6px;height:6px;border-radius:50%;background:#ddd;box-shadow:0 0 8px #fff;vertical-align:1px;margin-right:5px}
+.generator{position:fixed;inset:0;background:#050505cc;backdrop-filter:blur(14px);display:grid;place-items:center;padding:18px;z-index:20}
+.generatorBox{width:min(92vw,400px);position:relative;padding:28px;border:1px solid #3b3b3f;border-radius:25px;background:linear-gradient(145deg,#19191a,#101011);box-shadow:0 30px 100px #000;animation:appear .3s cubic-bezier(.22,1,.36,1);text-align:center}
+.closeGen{position:absolute;right:14px;top:11px;width:32px;height:32px;border-radius:50%;background:#222;color:#aaa;font-size:23px;cursor:pointer}
+.genLogo{width:54px;height:54px;border:1px solid #49494d;border-radius:17px;display:grid;place-items:center;margin:0 auto 14px;font-weight:900}
+.generatorBox h2{margin:0;font-size:22px;letter-spacing:1px}.generatorBox p{color:#777;font-size:12px;margin:8px 0 20px}
+.durations{display:grid;grid-template-columns:1fr 1fr;gap:9px}.durations button{height:46px;border:1px solid #3b3b3e;border-radius:12px;background:#151516;color:#ddd;font-size:12px;font-weight:800;cursor:pointer;transition:.2s}.durations button:active{transform:scale(.96);background:#ddd;color:#111}.durations button:last-child{grid-column:1/-1}
+.generated{margin-top:17px;padding:14px;border:1px solid #343437;border-radius:14px;background:#0d0d0e}.generated small{display:block;color:#666;font-size:9px;letter-spacing:2px}.generated strong{display:block;margin:8px 0 12px;font:700 15px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:1px;word-break:break-all}.generated button{width:100%;height:40px;border-radius:10px;background:#e4e4e5;color:#161617;font-size:12px;font-weight:800;cursor:pointer}
+
+.logo{width:66px;height:66px;margin:0 auto 20px;border:1px solid #4b4b4f;border-radius:20px;display:grid;place-items:center;font-weight:900;letter-spacing:1px;box-shadow:inset 0 0 20px #fff1}
+.login h1{text-align:center;margin:0;font-size:25px;letter-spacing:2px}
+.login p{text-align:center;color:#777;margin:9px 0 25px;font-size:13px}
+.field{height:54px;border:1px solid #343438;border-radius:15px;background:#0f0f10;color:#eee;padding:0 16px;width:100%;outline:none;transition:border-color .25s,box-shadow .25s}
+.field:focus{border-color:#707075;box-shadow:0 0 0 3px #fff08}
+.enter{width:100%;height:54px;margin-top:12px;border-radius:15px;background:#e5e5e6;color:#19191a;font-weight:800;letter-spacing:1px;cursor:pointer;transition:transform .18s cubic-bezier(.22,1,.36,1),filter .18s}
+.enter:active,.action:active{transform:scale(.975);filter:brightness(.9)}
+.error{text-align:center;color:#999;font-size:12px;min-height:18px;margin-top:11px}
+
+.app{width:min(92vw,540px);height:min(88vh,590px);min-height:480px;display:grid;grid-template-columns:92px 1fr;background:#131314;border:1px solid #3a3a3c;border-radius:28px;box-shadow:0 24px 70px #000;overflow:hidden;position:relative;animation:appear .5s cubic-bezier(.22,1,.36,1)}
+.sidebar{border-right:1px solid #2d2d2f;padding:22px 14px;display:flex;flex-direction:column;align-items:center}
+.nav{width:58px;height:58px;border:1px solid #29292b;border-radius:18px;background:#121213;color:#aaa;display:grid;place-items:center;margin-bottom:13px;cursor:pointer;transition:transform .22s cubic-bezier(.22,1,.36,1),background .25s,border-color .25s,color .25s}
+.nav:active{transform:scale(.93)}
+.nav.active{border-color:#858589;background:linear-gradient(145deg,#303033,#171718);color:#fff;box-shadow:inset 0 0 16px #fff1}
+.nav svg{width:29px;height:29px;stroke:currentColor;fill:none;stroke-width:1.8}
+.dot{margin-top:auto;width:13px;height:13px;border-radius:50%;background:#ddd;box-shadow:0 0 15px #fff6}
+.main{min-width:0;display:flex;flex-direction:column}
+.header{height:96px;border-bottom:1px solid #29292b;padding:18px 20px;display:flex;align-items:center;gap:13px}
+.headerIcon{width:52px;height:52px;border:1px solid #373739;border-radius:14px;display:grid;place-items:center;color:#ddd}
+.headerIcon svg{width:27px;height:27px}
+.headText{min-width:0;flex:1}.title{font-size:23px;font-weight:800;letter-spacing:2px;line-height:1}.subtitle{font-size:14px;color:#666;margin-top:8px}
+.badge{width:49px;height:49px;border:1px solid #38383a;border-radius:13px;display:grid;place-items:center;color:#aaa;font-size:10px;font-weight:700;line-height:1.05;text-align:center}
+.content{padding:22px 20px 80px;overflow:auto}.content::-webkit-scrollbar{width:6px}.content::-webkit-scrollbar-thumb{background:#444;border-radius:8px}
+.card{border:1px solid #29292b;border-radius:16px;min-height:83px;padding:16px 18px;margin-bottom:12px;display:flex;align-items:center;gap:12px;background:linear-gradient(180deg,#171718,#141415);transition:transform .25s cubic-bezier(.22,1,.36,1),border-color .25s}
+.card:active{transform:scale(.985)}
+.copy{flex:1;min-width:0}.card h3{margin:0;font-size:17px;letter-spacing:1.2px}.card p{margin:6px 0 0;color:#68686d;font-size:13px}
+.toggle{width:64px;height:35px;border-radius:20px;border:2px solid #444;background:#171718;position:relative;cursor:pointer;flex:none;transition:background .3s cubic-bezier(.22,1,.36,1),border-color .3s}
+.toggle span{position:absolute;width:25px;height:25px;border-radius:50%;left:3px;top:3px;background:#aaa;transition:left .32s cubic-bezier(.22,1,.36,1),background .25s}
+.toggle.on{background:#e5e5e5;border-color:#e5e5e5}.toggle.on span{left:32px;background:#222}
+.action{width:100%;height:53px;border:1px solid #999;border-radius:13px;background:#bdbdbd;color:#242424;font-weight:800;letter-spacing:1px;font-size:15px;margin-bottom:12px;cursor:pointer;transition:transform .18s cubic-bezier(.22,1,.36,1),filter .18s}
+.status{display:flex;align-items:center;justify-content:center;gap:10px;color:#999;font-weight:700;margin:10px 0 22px}.ring{width:12px;height:12px;border:2px solid #eee;border-right-color:transparent;border-radius:50%;animation:spin .8s linear infinite}
+.log{height:130px;border:1px solid #29292b;border-radius:13px;background:#101011;padding:12px;color:#777;font:12px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;overflow:auto}
+.footer{position:absolute;bottom:0;left:92px;right:0;height:68px;border-top:1px solid #29292b;background:#121213;display:flex;flex-direction:column;align-items:center;justify-content:center}.footer strong{font-size:14px;letter-spacing:1.3px}.footer span{font-size:11px;color:#777;margin-top:4px}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);background:#e7e7e8;color:#111;padding:10px 16px;border-radius:12px;font-size:13px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s cubic-bezier(.22,1,.36,1);z-index:5}.toast.show{opacity:1;transform:translate(-50%,0)}
+.hidden{display:none!important}
+@keyframes appear{from{opacity:0;transform:translateY(8px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:430px){.app{width:94vw;height:84vh;grid-template-columns:78px 1fr;border-radius:24px}.sidebar{padding:18px 10px}.nav{width:54px;height:54px}.header{padding:15px 14px}.title{font-size:19px}.subtitle{font-size:12px}.content{padding:18px 13px 78px}.card{padding:14px 13px}.card h3{font-size:15px}.footer{left:78px}}
+
+.launcher{position:fixed;inset:0;background:#0b0b0ceF;backdrop-filter:blur(18px);display:grid;place-items:center;z-index:30}
+.launchBox{width:min(88vw,390px);padding:25px;border:1px solid #38383b;border-radius:23px;background:#151516;box-shadow:0 30px 90px #000}
+.launchTitle{text-align:center;font-weight:800;letter-spacing:1.4px;margin-bottom:16px}
+.progress{height:7px;background:#29292b;border-radius:10px;overflow:hidden}.progress i{display:block;height:100%;width:0;background:#eee;border-radius:10px;transition:width 5s linear}
+.launchLog{height:125px;margin-top:16px;padding:11px;border:1px solid #29292b;border-radius:12px;background:#0e0e0f;color:#85858a;font:11px/1.65 ui-monospace,SFMono-Regular,Menlo,monospace;overflow:hidden}
+.injectItem{border:1px solid #29292b;border-radius:16px;min-height:70px;padding:13px 14px;margin-bottom:10px;display:flex;align-items:center;gap:12px;background:linear-gradient(180deg,#171718,#141415)}.injectFolder{width:42px;height:42px;border-radius:10px;background:#ef1b25;display:grid;place-items:center;flex:none;box-shadow:0 0 14px #ef1b2538}.injectFolder svg{width:24px;height:24px;fill:#111;stroke:#111;stroke-width:1.5}.injectItem .copy h3{font-size:15px;margin:0;letter-spacing:1px}.injectItem .copy p{font-size:11px;color:#68686d;margin:5px 0 0}.injectAction{margin-top:4px;background:#ef1b25;color:#fff;border-color:#ef1b25}.injectModal{position:fixed;inset:0;background:#050505cc;backdrop-filter:blur(12px);display:grid;place-items:center;padding:18px;z-index:40}.injectModalBox{width:min(88vw,380px);padding:24px;border:1px solid #ef1b25;border-radius:22px;background:linear-gradient(145deg,#19191a,#101011);box-shadow:0 25px 90px #000,0 0 28px #ef1b2528;text-align:center;animation:appear .28s cubic-bezier(.22,1,.36,1)}.injectModalIcon{width:62px;height:62px;margin:0 auto 14px;border-radius:15px;background:#ef1b25;display:grid;place-items:center}.injectModalIcon svg{width:34px;height:34px;fill:#111;stroke:#111}.injectModalBox h2{margin:0;font-size:20px;letter-spacing:1px}.injectModalBox p{margin:9px 0 18px;color:#85858a;font-size:12px;line-height:1.5}.injectClose{width:100%;height:44px;border-radius:11px;background:#e5e5e6;color:#161617;font-weight:800;cursor:pointer}
+.injectProgress{display:none;margin:2px 0 16px}.injectProgress.show{display:block}.injectProgressTop{display:flex;justify-content:space-between;margin-bottom:7px;color:#aaa;font-size:11px;font-weight:800;letter-spacing:.8px}.injectPercent{color:#ef1b25}.injectProgressTrack{height:9px;border-radius:10px;background:#29292b;overflow:hidden;border:1px solid #3b2022}.injectProgressBar{height:100%;width:0%;border-radius:10px;background:#ef1b25;box-shadow:0 0 12px #ef1b25;transition:width .1s linear}
+</style>
+</head>
+<body>
+
+<div id="loginScreen" class="screen">
+  <div class="login">
+    <div class="loginGlow"></div>
+    <div class="logo">LS</div>
+    <div class="miniLabel">LUXURY</div>
+    <h1>LUXURY SENSI</h1>
+    <p>Acesso seguro ao seu painel</p>
+    <div class="inputWrap">
+      <span class="lock">⌑</span>
+      <input id="key" class="field" type="password" placeholder="Digite sua Key" autocomplete="off">
+    </div>
+    <button class="enter" id="enter"><span>ENTRAR</span><b>›</b></button>
+    <div class="secure"><i></i> Sessão protegida</div>
+    <div class="error" id="error"></div>
+  </div>
+</div>
+
+<div id="keyGenerator" class="generator hidden">
+  <div class="generatorBox">
+    <button class="closeGen" id="closeGen">×</button>
+    <div class="genLogo">LS</div>
+    <div class="miniLabel">LUXURY KEY</div>
+    <h2>Gerar Key</h2>
+    <p>Chave exclusiva para este dispositivo.</p>
+    <div class="durations">
+      <button data-days="1">1 DIA</button>
+      <button data-days="3">3 DIAS</button>
+      <button data-days="7">7 DIAS</button>
+      <button data-days="30">30 DIAS</button>
+      <button data-days="permanent">PERMANENTE</button>
+    </div>
+    <div class="generated hidden" id="generated">
+      <small>SUA KEY</small>
+      <strong id="generatedKey"></strong>
+      <button id="copyKey">COPIAR KEY</button>
+    </div>
+  </div>
+</div>
+
+<div id="panel" class="app hidden">
+  <aside class="sidebar">
+    <button class="nav active" data-page="aimbot" title="Aimbot"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="11"/><circle cx="16" cy="16" r="5"/><path d="M16 2v6M16 24v6M2 16h6M24 16h6"/></svg></button>
+    <button class="nav" data-page="optimization" title="Otimização"><svg viewBox="0 0 32 32"><path d="M16 3l10 4v7c0 7-4.2 11.5-10 15-5.8-3.5-10-8-10-15V7l10-4z"/><path d="m11 15 3 3 7-7"/></svg></button>
+    <button class="nav" data-page="injector" title="Iniciar"><svg viewBox="0 0 32 32"><path d="m6 23 16-16"/><path d="m19 5 8 8"/><path d="m4 25 3 3 4-4-3-3z"/><path d="m22 8 3-3 5 5-3 3z"/></svg></button>
+    <div class="dot"></div>
+  </aside>
+  <main class="main">
+    <header class="header"><div class="headerIcon" id="headIcon"></div><div class="headText"><div class="title" id="pageTitle">AIMBOT</div><div class="subtitle" id="pageSubtitle">Configurações de mira e precisão</div></div><div class="badge">LUX<br>SENSI</div></header>
+    <section class="content" id="content"></section>
+    <footer class="footer"><strong>Todos os direitos reservados</strong><span>© Luxury Sensi</span></footer>
+  </main>
+</div>
+<div id="launcher" class="launcher hidden"><div class="launchBox"><div class="launchTitle" id="launchTitle">PREPARANDO FREE FIRE</div><div class="progress"><i id="progressBar"></i></div><div class="launchLog" id="launchLog"></div></div></div><div class="toast" id="toast"></div><div id="injectModal" class="injectModal hidden"><div class="injectModalBox"><div class="injectModalIcon"><svg viewBox="0 0 32 32"><path d="M6 9h7l2 3h11v12H6z"/><path d="M6 9V7h8l2 3"/></svg></div><h2>ARQUIVOS INJETADOS E ATIVADOS!</h2><p>Todos os arquivos foram processados com sucesso e estão ativos nesta sessão.</p><button class="injectClose" onclick="closeInjectModal()">OK</button></div></div>
+
+<script>
+const icons={
+ aimbot:'<svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="11"/><circle cx="16" cy="16" r="5"/><path d="M16 2v6M16 24v6M2 16h6M24 16h6"/></svg>',
+ optimization:'<svg viewBox="0 0 32 32"><path d="M16 3l10 4v7c0 7-4.2 11.5-10 15-5.8-3.5-10-8-10-15V7l10-4z"/><path d="m11 15 3 3 7-7"/></svg>',
+ injector:'<svg viewBox="0 0 32 32"><path d="m6 23 16-16"/><path d="m19 5 8 8"/><path d="m4 25 3 3 4-4-3-3z"/><path d="m22 8 3-3 5 5-3 3z"/></svg>'
+};
+const pages={
+ aimbot:{title:'AIMBOT',sub:'Configurações de mira e precisão',items:[['AIMBOT LEGIT','assistência de mira suave'],['PRECISÃO','ajustes de precisão'],['DIMINUIR RECUO','controle de estabilidade']]},
+ optimization:{title:'OTIMIZAÇÃO',sub:'Otimizações gerais',items:[['OTIMIZAÇÃO','melhora o desempenho do dispositivo'],['CLEAR DRIVE GRAPHICS','limpeza de recursos gráficos'],['FORÇAR 120 FPS','ajuste de taxa de atualização']]},
+ injector:{title:'INICIAR',sub:'Escolha uma versão do Free Fire',items:[]}
+};
+const content=document.getElementById('content'),title=document.getElementById('pageTitle'),sub=document.getElementById('pageSubtitle'),headIcon=document.getElementById('headIcon'),toast=document.getElementById('toast');
+function showToast(msg){toast.textContent=msg;toast.classList.add('show');clearTimeout(showToast.t);showToast.t=setTimeout(()=>toast.classList.remove('show'),1600)}
+function getSettings(){try{return JSON.parse(localStorage.getItem('luxury_settings')||'{}')}catch(e){return {}}}
+function saveSettings(settings){localStorage.setItem('luxury_settings',JSON.stringify(settings))}
+function toggle(btn,name){
+  const on=!btn.classList.contains('on');
+  btn.classList.toggle('on',on);
+  const settings=getSettings();
+  settings[name]=on;
+  saveSettings(settings);
+  showToast(name+(on?' ativado':' desativado'));
+}
+function restoreSettings(){
+  const settings=getSettings();
+  document.querySelectorAll('.toggle').forEach(btn=>{
+    if(settings[btn.dataset.name]===true) btn.classList.add('on');
+  });
+}
+function getDeviceId(){
+  let id=localStorage.getItem('luxury_device_id');
+  if(!id){id=(crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2));localStorage.setItem('luxury_device_id',id)}
+  return id;
+}
+function makeKey(days){
+  const raw=getDeviceId().replace(/-/g,'').slice(0,10).toUpperCase();
+  const suffix=Math.random().toString(36).slice(2,8).toUpperCase();
+  const period=days==='permanent'?'PERM':String(days).padStart(2,'0')+'D';
+  return 'LUX-'+period+'-'+raw+'-'+suffix;
+}
+function launch(type){
+  const launcher=document.getElementById('launcher'), bar=document.getElementById('progressBar'), log=document.getElementById('launchLog');
+  launcher.classList.remove('hidden'); bar.style.width='0%';
+  const name=type==='max'?'FREE FIRE MAX':'FREE FIRE';
+  document.getElementById('launchTitle').textContent='PREPARANDO '+name;
+  const lines=[
+    '[ Luxury Sensi ] sessão autorizada',
+    '[ 01 ] verificando ambiente... OK',
+    '[ 02 ] preparando inicialização... OK',
+    '[ 03 ] carregando configurações... OK',
+    '[ 04 ] iniciando '+name+'...'
+  ];
+  log.innerHTML='';
+  let i=0;
+  const timer=setInterval(()=>{
+    if(i<lines.length){log.innerHTML+=lines[i]+'<br>';i++}
+  },1000);
+  requestAnimationFrame(()=>requestAnimationFrame(()=>bar.style.width='100%'));
+  setTimeout(()=>{
+    clearInterval(timer);
+    const ios=/iPhone|iPad|iPod/i.test(navigator.userAgent||'');
+    let uri;
+    if(type==='normal') uri=ios?'freefire://':'intent://#Intent;scheme=freefire;package=com.dts.freefireth;end';
+    else uri='freefiremax://';
+    window.location.href=uri;
+    setTimeout(()=>launcher.classList.add('hidden'),900);
+  },5000);
+}
+let injectTimer=null;
+function injectFiles(){
+ const modal=document.getElementById('injectModal');
+ const progress=document.getElementById('injectProgress');
+ const bar=document.getElementById('injectProgressBar');
+ const percent=document.getElementById('injectPercent');
+ const status=document.getElementById('injectStatus');
+ const log=document.getElementById('log');
+ if(injectTimer) clearInterval(injectTimer);
+ progress.classList.add('show');
+ bar.style.width='0%';
+ percent.textContent='0%';
+ status.textContent='Injetando arquivos...';
+ if(log) log.innerHTML='[ Luxury Sensi ] sessão autorizada<br>[ 01 ] verificando arquivos...<br>[ 02 ] preparando arquivos...<br>[ 03 ] ativando opções...<br>';
+ const duration=15000;
+ const started=Date.now();
+ injectTimer=setInterval(()=>{
+   const value=Math.min(100,Math.floor(((Date.now()-started)/duration)*100));
+   bar.style.width=value+'%';
+   percent.textContent=value+'%';
+   if(value>=100){
+     clearInterval(injectTimer);
+     injectTimer=null;
+     status.textContent='Arquivos ativados com sucesso!';
+     if(log) log.innerHTML+='[ 04 ] ARQUIVOS INJETADOS E ATIVADOS!<br>';
+     modal.classList.remove('hidden');
+     setTimeout(()=>{
+       modal.classList.add('hidden');
+       progress.classList.remove('show');
+       bar.style.width='0%';
+       percent.textContent='0%';
+       status.textContent='Pronto para injetar';
+     },3000);
+   }
+ },100);
+}
+
+function render(page){
+ const p=pages[page];title.textContent=p.title;sub.textContent=p.sub;headIcon.innerHTML=icons[page];
+ if(page==='injector'){
+   const injectItems=[['AIMBOT LEGIT','assistência de mira suave'],['PRECISÃO','ajustes de precisão'],['DIMINUIR RECUO','controle de estabilidade'],['OTIMIZAÇÃO','melhora o desempenho do dispositivo'],['CLEAR DRIVE GRAPHICS','limpeza de recursos gráficos'],['FORÇAR 120 FPS','ajuste de taxa de atualização']];
+   const folderIcon='<svg viewBox="0 0 32 32"><path d="M5 9h8l2 3h12v13H5z"/><path d="M5 9V7h9l2 3"/></svg>';
+   content.innerHTML=`
+   <button class="action injectAction" onclick="injectFiles()">INJETAR ARQUIVOS</button>
+   <div class="injectProgress" id="injectProgress">
+     <div class="injectProgressTop"><span>INJETANDO ARQUIVOS...</span><span class="injectPercent" id="injectPercent">0%</span></div>
+     <div class="injectProgressTrack"><div class="injectProgressBar" id="injectProgressBar"></div></div>
+   </div>
+   <div class="status"><span class="ring"></span><span id="injectStatus">Pronto para injetar</span></div>
+   <div>${injectItems.map(it=>`<div class="injectItem"><div class="injectFolder">${folderIcon}</div><div class="copy"><h3>${it[0]}</h3><p>${it[1]}</p></div></div>`).join('')}</div>
+   <div class="log" id="log">[ Luxury Sensi ] sistema pronto<br>[ 01 ] aguardando injeção...<br>[ 02 ] arquivos disponíveis: ${injectItems.length}<br>[ 03 ] escolha "INJETAR ARQUIVOS" para ativar a demonstração...</div>`;
+   return;
+ }
+ content.innerHTML=p.items.map(it=>`<div class="card"><div class="copy"><h3>${it[0]}</h3><p>${it[1]}</p></div><button class="toggle" data-name="${it[0]}" onclick="toggle(this,'${it[0]}')"><span></span></button></div>`).join('');
+  restoreSettings();
+}
+document.querySelectorAll('.nav').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.nav').forEach(x=>x.classList.remove('active'));btn.classList.add('active');render(btn.dataset.page)}));
+function validKey(value){
+  if(value==='Luxury') return true;
+  const keys=JSON.parse(localStorage.getItem('luxury_keys')||'[]');
+  return keys.some(k=>k.key===value && (k.permanent || Date.now()<k.expires));
+}
+function enterPanel(){
+  const value=document.getElementById('key').value.trim();
+  const error=document.getElementById('error');
+  if(validKey(value)){
+    document.getElementById('loginScreen').classList.add('hidden');
+    document.getElementById('panel').classList.remove('hidden');
+    render('aimbot');
+    if('speechSynthesis' in window){
+      speechSynthesis.cancel();
+      const u=new SpeechSynthesisUtterance('Bem vindo ao injetor Luxury');
+      u.lang='pt-BR';u.rate=.92;u.pitch=1;
+      speechSynthesis.speak(u);
+    }
+  }else{error.textContent='Key inválida ou expirada';document.getElementById('key').select()}
+}
+document.getElementById('enter').addEventListener('click',enterPanel);
+document.getElementById('key').addEventListener('keydown',e=>{if(e.key==='Enter')enterPanel()});
+
+document.querySelectorAll('.durations button').forEach(btn=>btn.addEventListener('click',()=>{
+  const days=btn.dataset.days;
+  const key=makeKey(days);
+  const item={key,device:getDeviceId(),permanent:days==='permanent',expires:days==='permanent'?null:Date.now()+Number(days)*86400000};
+  const keys=JSON.parse(localStorage.getItem('luxury_keys')||'[]');
+  keys.push(item);localStorage.setItem('luxury_keys',JSON.stringify(keys));
+  document.getElementById('generatedKey').textContent=key;
+  document.getElementById('generated').classList.remove('hidden');
+}));
+document.getElementById('copyKey').addEventListener('click',async()=>{
+  const key=document.getElementById('generatedKey').textContent;
+  try{await navigator.clipboard.writeText(key);showToast('Key copiada')}catch(e){showToast('Selecione e copie a Key')}
+});
+document.getElementById('closeGen').addEventListener('click',()=>document.getElementById('keyGenerator').classList.add('hidden'));
+
+let twoFingerTaps=0,lastTwoFinger=0;
+document.addEventListener('touchstart',e=>{
+  if(e.touches.length===2){
+    const now=Date.now();
+    if(now-lastTwoFinger<700) twoFingerTaps++; else twoFingerTaps=1;
+    lastTwoFinger=now;
+    if(twoFingerTaps>=3){
+      twoFingerTaps=0;
+      document.getElementById('keyGenerator').classList.remove('hidden');
+    }
+  }
+},{passive:true});
+</script>
+
+<div id="pwaInstall" style="position:fixed;left:50%;bottom:82px;transform:translateX(-50%);width:min(92vw,380px);padding:12px 14px;border:1px solid #38383b;border-radius:15px;background:#151516;color:#eee;box-shadow:0 18px 60px #000;display:none;z-index:60;align-items:center;gap:10px">
+  <div style="flex:1;font-size:12px;line-height:1.35"><strong style="display:block;font-size:13px;letter-spacing:.5px">LUXURY INJECT</strong>Instale na tela inicial como um app.</div>
+  <button id="pwaInstallBtn" style="height:38px;padding:0 13px;border-radius:10px;background:#e5e5e6;color:#111;font-weight:800;cursor:pointer">INSTALAR</button>
+  <button id="pwaInstallClose" style="height:38px;padding:0 10px;border-radius:10px;background:#29292b;color:#aaa;cursor:pointer">×</button>
+</div>
+<script>
+(function(){
+  if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').catch(function(){});}
+  let deferredPrompt=null;
+  const box=document.getElementById('pwaInstall');
+  window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferredPrompt=e;box.style.display='flex';});
+  document.getElementById('pwaInstallBtn').addEventListener('click',async function(){
+    if(!deferredPrompt)return; deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt=null; box.style.display='none';
+  });
+  document.getElementById('pwaInstallClose').addEventListener('click',function(){box.style.display='none';});
+})();
+</script>
+
+</body>
+</html>
